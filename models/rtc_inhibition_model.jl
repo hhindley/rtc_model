@@ -1,7 +1,5 @@
-PATH = "YOURPATH"
-
-include("$PATH/funcs.jl")
-include("$PATH/params.jl")
+include(joinpath(homedir(), "rtc_model-main/funcs.jl"))
+include(joinpath(homedir(), "rtc_model-main/params.jl"))
 
 indexof(sym, syms) = findfirst(isequal(sym),syms)
 

@@ -1,13 +1,11 @@
 using DifferentialEquations, DataFrames, ModelingToolkit, OrderedCollections
 
-PATH = "YOURPATH"
-
-include("$PATH/funcs.jl");
-include("$PATH/params.jl");
-include("$PATH/models/rtc_model.jl");
-include("$PATH/models/rtc_inhibition_model.jl");
-include("$PATH/models/rtc_trna_model.jl");
-include("$PATH/models/trna_inhib_models.jl");
+include(joinpath(homedir(), "rtc_model-main/funcs.jl"))
+include(joinpath(homedir(), "rtc_model-main/params.jl"))
+include(joinpath(homedir(), "rtc_model-main/models/rtc_model.jl"))
+include(joinpath(homedir(), "rtc_model-main/models/rtc_inhibition_model.jl"))
+include(joinpath(homedir(), "rtc_model-main/models/rtc_trna_model.jl"))
+include(joinpath(homedir(), "rtc_model-main/models/trna_inhib_models.jl"))
 
 # rtc model
 solu_rtc = sol(rtc_model, init_rtc, tspan, params_rtc)
