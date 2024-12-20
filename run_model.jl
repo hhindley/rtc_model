@@ -1,11 +1,24 @@
 using DifferentialEquations, DataFrames, ModelingToolkit, OrderedCollections
 
-include(joinpath(homedir(), "rtc_model-main/funcs.jl"))
-include(joinpath(homedir(), "rtc_model-main/params.jl"))
-include(joinpath(homedir(), "rtc_model-main/models/rtc_model.jl"))
-include(joinpath(homedir(), "rtc_model-main/models/rtc_inhibition_model.jl"))
-include(joinpath(homedir(), "rtc_model-main/models/rtc_trna_model.jl"))
-include(joinpath(homedir(), "rtc_model-main/models/trna_inhib_models.jl"))
+include(joinpath(homedir(), "rtc_model/funcs.jl"));
+include(joinpath(homedir(), "rtc_model/rtc_params.jl"));
+include(joinpath(homedir(), "rtc_model/trna_params.jl"));
+
+# rRNA models 
+include(joinpath(homedir(), "rtc_model/models/rtc_orig.jl"));
+include(joinpath(homedir(), "rtc_model/models/rtc_inhibition_model.jl"));
+include(joinpath(homedir(), "rtc_model/models/rtc_orig_cooperativity.jl"));
+include(joinpath(homedir(), "rtc_model/models/rtc_without_rtca.jl"));
+include(joinpath(homedir(), "rtc_model/models/lam_kin.jl"));
+
+# tRNA models
+include(joinpath(homedir(), "rtc_model/models/rtc_trna_model.jl"));
+include(joinpath(homedir(), "rtc_model/models/trna_inhib_models.jl"));
+include(joinpath(homedir(), "rtc_model/models/rtc_trna_cooperativity.jl"));
+include(joinpath(homedir(), "rtc_model/models/rtc_trna_model_without_rtca.jl"));
+
+# below are some examples of using DifferentialEquations.jl to solve models, the same code structure can be 
+# used for the other models loaded above.
 
 # rtc model
 solu_rtc = sol(rtc_model, init_rtc, tspan, params_rtc)

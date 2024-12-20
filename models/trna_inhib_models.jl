@@ -1,9 +1,5 @@
-include(joinpath(homedir(), "rtc_model-main/funcs.jl"))
-include(joinpath(homedir(), "rtc_model-main/params.jl"))
-
-
 indexof(sym,syms) = findfirst(isequal(sym),syms)
-@variables t 
+@independent_variables t 
 @parameters L c kr Vmax_init Km_init ω_ab ω_r θtscr g_max θtlr km_a km_b d krep kdam ktag kdeg kin atp na nb nr lam kc k_diss rh thr_t k_inhib1 k_inhib2 inhib
 species_trna_inhib1 = @syms rm_a(t) rtca(t) rm_b(t) rtcb(t) rm_r(t) rtcr(t) trna(t) rd(t) rt(t) rtc_i(t)
 species_trna_inhib = [Symbol(i) for i in species_trna_inhib1]
@@ -86,11 +82,11 @@ function build_trna_inhib_model(inhib_protein1)
 
         @equations begin
             alpha ~ rt/kr 
-            fa ~ (1+alpha)^6/(L*((1+c*alpha)^6)+(1+alpha)^6)  
+            fa ~ (1+alpha)^6/(L*((1+c*alpha)^6)+(1+alpha)^6) 
             ra ~ fa*rtcr 
             
             # transcription
-            Voc ~ Vmax_init*atp/(Km_init+atp)  
+            Voc ~ Vmax_init*atp/(Km_init+atp) 
             sig_o ~ ra*Voc/k_diss 
         
             tscr_ab ~ sig_o*ω_ab*atp/(θtscr+atp) 
@@ -101,8 +97,8 @@ function build_trna_inhib_model(inhib_protein1)
             # # ribosomes
             Vrep ~ rtcb*rt*krep/(rt+km_b) 
             Vdam ~ kdam*trna 
-            Vinflux ~ kin* g_max*atp/(θtlr+atp)
-            Vtag ~ rtca*rd*ktag/(rd+km_a)
+            Vinflux ~ kin* g_max*atp/(θtlr+atp) 
+            Vtag ~ rtca*rd*ktag/(rd+km_a) 
 
             rhs_rm_a ~ tscr_ab - dil(rm_a,lam) - deg(rm_a)
             rhs_rm_b ~ tscr_ab - dil(rm_b,lam) - deg(rm_b)
@@ -162,3 +158,6 @@ ssvals_trna_rtca_inhib = steady_states(rtca_trna_inhib_model, init_trna_inhib_rt
 ssvals_trna_rtcb_inhib = steady_states(rtcb_trna_inhib_model, init_trna_inhib_rtcb, params_trna_inhib)
 ssvals_trna_rtcr_inhib = steady_states(rtcr_trna_inhib_model, init_trna_inhib_rtcr, params_trna_inhib)
 
+ssvals_trna_rtca_inhib = collect(ssvals_trna_rtca_inhib)
+ssvals_trna_rtcb_inhib = collect(ssvals_trna_rtcb_inhib)
+ssvals_trna_rtcr_inhib = collect(ssvals_trna_rtcr_inhib)

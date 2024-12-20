@@ -1,6 +1,6 @@
 indexof(sym,syms) = findfirst(isequal(sym),syms)
 @independent_variables t 
-@parameters L c kr Vmax_init Km_init ω_ab ω_r θtscr g_max θtlr km_a km_b d krep kdam ktag kdeg kin atp na nb nr lam kc k_diss rh thr_t
+@parameters L c kr Vmax_init Km_init ω_ab ω_r θtscr g_max θtlr km_a km_b d krep kdam ktag kdeg kin atp na nb nr lam kc k_diss rh thr_t n
 species_trna1 = @syms rm_a(t) rtca(t) rm_b(t) rtcb(t) rm_r(t) rtcr(t) trna(t) rd(t) rt(t) 
 species_rtc = [Symbol(i) for i in species_trna1]
 
@@ -35,6 +35,7 @@ D = Differential(t)
         k_diss 
         rh
         thr_t
+        n
     end
     @variables begin
         rm_a(t) 
@@ -75,7 +76,7 @@ D = Differential(t)
 
     @equations begin
         alpha ~ rt/kr
-        fa ~ (1+alpha)^6/(L*((1+c*alpha)^6)+(1+alpha)^6)
+        fa ~ (1+alpha)^n/(L*((1+c*alpha)^n)+(1+alpha)^n) 
         ra ~ fa*rtcr 
         
         # transcription
@@ -90,7 +91,7 @@ D = Differential(t)
         # # ribosomes
         Vrep ~ rtcb*rt*krep/(rt+km_b) 
         Vdam ~ kdam*trna 
-        Vtag ~ rtca*rd*ktag/(rd+km_a) # uM min-1 
+        Vtag ~ rtca*rd*ktag/(rd+km_a) 
 
         rhs_rm_a ~ tscr_ab - dil(rm_a,lam) - deg(rm_a)
         rhs_rm_b ~ tscr_ab - lam*(rm_b) - deg(rm_b)
@@ -117,14 +118,16 @@ D = Differential(t)
 end
 
 
-@mtkbuild rtc_trna_model = RTC_TRNA()
+@mtkbuild rtc_trna_model_coop = RTC_TRNA()
 
-init_trna = [rtc_trna_model.rm_a=>0.0,rtc_trna_model.rtca=>0.0,rtc_trna_model.rm_b=>0.0,rtc_trna_model.rtcb=>0.0,rtc_trna_model.rm_r=>0.0,rtc_trna_model.rtcr=>0.0,rtc_trna_model.trna=>135.5,rtc_trna_model.rd=>0.0,rtc_trna_model.rt=>0.0] # tRNA initial conc = 135.5
+init_trna_coop = [rtc_trna_model_coop.rm_a=>0.0,rtc_trna_model_coop.rtca=>0.0,rtc_trna_model_coop.rm_b=>0.0,rtc_trna_model_coop.rtcb=>0.0,rtc_trna_model_coop.rm_r=>0.0,rtc_trna_model_coop.rtcr=>0.0,rtc_trna_model_coop.trna=>135.5,rtc_trna_model_coop.rd=>0.0,rtc_trna_model_coop.rt=>0.0] 
 
 tspan = (0, 1e9);
 
-params_trna = Dict(L=>L_val, c=>c_val, kr=>kr_val*12, Vmax_init=>Vmax_init_val, Km_init=>Km_init_val, θtscr=>θtscr_val, θtlr=>θtlr_val, na=>nA_val, nb=>nB_val, nr=>nR_val, d=>d_val, krep=>krep_val, ktag=>ktag_val,
-atp=>atp_val, km_a=>km_a_val, km_b=>km_b_val, g_max=>g_max_val, kdeg=>kdeg_trna_val, kin=>kin_trna_val, ω_ab=>ω_ab_val, ω_r=>ω_r_val, kdam=>kdam_val, lam=>lam_val, kc=>kc_val, k_diss=>k_diss_val, rh=>rh_val, thr_t=>thr_t_val)
+n_val = 6
 
-ssvals_trna = steady_states(rtc_trna_model, init_trna, params_trna)
-ssvals_trna = collect(ssvals_trna)
+params_trna_coop = Dict(L=>L_val, c=>c_val, kr=>kr_val*12, Vmax_init=>Vmax_init_val, Km_init=>Km_init_val, θtscr=>θtscr_val, θtlr=>θtlr_val, na=>nA_val, nb=>nB_val, nr=>nR_val, d=>d_val, krep=>krep_val, ktag=>ktag_val,
+atp=>atp_val, km_a=>km_a_val, km_b=>km_b_val, g_max=>g_max_val, kdeg=>kdeg_trna_val, kin=>kin_trna_val, ω_ab=>ω_ab_val, ω_r=>ω_r_val, kdam=>kdam_val, lam=>lam_val, kc=>kc_val, k_diss=>k_diss_val, rh=>rh_val, thr_t=>thr_t_val, n=>n_val)
+
+ssvals_trna_coop = steady_states(rtc_trna_model_coop, init_trna_coop, params_trna_coop)
+ssvals_trna_coop = collect(ssvals_trna_coop)
