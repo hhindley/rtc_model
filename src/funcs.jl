@@ -49,3 +49,18 @@ function get_br(model, init, params; kdam_max=1.5, ds=0.0001, a=0.01, dsmax=0.1,
 
     return br
 end
+
+function create_br_df(br)
+    df = DataFrame(rm_a=[],rtca=[],rm_b=[],rtcb=[],rm_r=[],rtcr=[],rh=[],rd=[],rt=[],kdam=[])
+    for i in eachcol(df)
+        println(i)
+    end
+    for i in range(1,length(br.sol))
+        for (s,d) in zip(range(1,9), eachcol(df))
+            push!(d, br.sol[i][1][s])
+        end
+        push!(df.kdam, br.sol[i][2])
+    end
+    
+    return df
+end
