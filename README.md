@@ -38,7 +38,7 @@ These dependencies will be directly installed if you follow the above instructio
 rtc_model/
 ├── Project.toml
 ├── README.md
-├── scripts/
+├── examples/
 │   ├── bifurcation.jl
 │   └── run_model.jl
 ├── src/
@@ -58,7 +58,7 @@ rtc_model/
 │   │   └── trna_params.jl
 ```
 
-### scripts/
+### examples/
 - `run_model.jl`: Provides all information needed to solve each model with and without damage.
 - `bifurcation.jl`: Provides all information needed to obtain the bistability result in the Rtc and tRNA models. When plotting these results for each species, the outputs should match what is shown in paper figure 3a. Should not take more than a few minutes to run on a standard machine.
 
@@ -67,3 +67,8 @@ rtc_model/
 - `models/`: Contains all model versions.
 - `parameters/`: Contains all parameter values as used to get results.
 
+## Citation
+
+If you use this code in your research, please cite:
+
+Hindley, H. et al. "A model of Rtc-regulated RNA repair reveals heterogeneous responses to ribosome-targeting antibiotics and suggests molecular targets to potentiate their effects." (2025).
