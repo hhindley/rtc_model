@@ -97,14 +97,14 @@ function build_trna_inhib_model(inhib_protein1)
             # # ribosomes
             Vrep ~ rtcb*rt*krep/(rt+km_b) 
             Vdam ~ kdam*trna 
-            Vinflux ~ kin* g_max*atp/(θtlr+atp) 
+            # Vinflux ~ kin* g_max*atp/(θtlr+atp) 
             Vtag ~ rtca*rd*ktag/(rd+km_a) 
 
             rhs_rm_a ~ tscr_ab - dil(rm_a,lam) - deg(rm_a)
             rhs_rm_b ~ tscr_ab - dil(rm_b,lam) - deg(rm_b)
             rhs_rm_r ~ tscr_r - dil(rm_r,lam) - deg(rm_r)
 
-            rhs_trna ~ Vrep - Vdam + Vinflux - dil(trna,lam)
+            rhs_trna ~ Vrep - Vdam + kin - dil(trna,lam)
             rhs_rd ~ Vdam - Vtag - kdeg*rd - dil(rd,lam)
             rhs_rt ~ Vtag - Vrep - dil(rt,lam)
 
