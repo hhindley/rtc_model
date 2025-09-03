@@ -1,4 +1,4 @@
-# A model of Rtc-regulated RNA repair reveals heterogeneous responses to ribosome-targeting antibiotics and suggests molecular targets to potentiate their effects
+# Heterogeneity in responses to ribosome-targeting antibiotics mediated by bacterial RNA repair
 
 ## Installation guide
 Refer to https://julialang.org/downloads/ for instructions on how to download Julia.
