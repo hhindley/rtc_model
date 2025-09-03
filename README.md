@@ -66,9 +66,3 @@ rtc_model/
 - `funcs.jl`: Includes all functions used within other files.
 - `models/`: Contains all model versions.
 - `parameters/`: Contains all parameter values as used to get results.
-
-## Citation
-
-If you use this code in your research, please cite:
-
-Hindley, H. et al. "A model of Rtc-regulated RNA repair reveals heterogeneous responses to ribosome-targeting antibiotics and suggests molecular targets to potentiate their effects." (2025).
